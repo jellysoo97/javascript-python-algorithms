@@ -1,5 +1,4 @@
 // 삽입 정렬 Insertion Sort : O(n^2) -> nested loop
-//
 function insertionSort(arr) {
   for (let i = 1; i < arr.length; i++) {
     let numberToInsert = arr[i];
