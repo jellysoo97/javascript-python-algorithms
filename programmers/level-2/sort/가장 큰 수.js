@@ -12,5 +12,6 @@ function solution(numbers) {
     .map((number) => number + "")
     .sort((a, b) => b + a - (a + b));
 
-  return sortedArr.join("");
+  // edge case : '0000'
+  return sortedArr[0] === "0" ? "0" : sortedArr.join("");
 }
