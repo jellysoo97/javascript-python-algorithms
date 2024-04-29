@@ -3,8 +3,7 @@ const fs = require("fs");
 const input = fs.readFileSync("input.txt").toString().split("\n");
 
 // p, w
-const p = +input[0].split(" ")[0];
-const w = +input[0].split(" ")[1];
+const [p, w] = input[0].split(" ").map((str) => +str);
 // input 문자열 배열
 const inputArr = input[1].split("");
 // 알파벳 묶음
