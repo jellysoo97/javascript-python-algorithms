@@ -22,3 +22,19 @@ function solution(n, k = n + 1) {
     ? k
     : solution(n, k + 1);
 }
+
+// sol3
+// 다시 풀기
+function solution(n, next = n + 1) {
+  // base case, 재귀 멈출 조건
+  // n < next 이고 이진법 n, next의 1의 개수가 같아야 함
+  if (
+    n < next &&
+    n.toString(2).match(/1/g).length === next.toString(2).match(/1/g).length
+  ) {
+    return next;
+  }
+
+  // different input
+  return solution(n, next + 1);
+}
