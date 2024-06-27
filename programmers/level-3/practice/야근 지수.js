@@ -74,14 +74,11 @@ class MaxHeap {
     let childIndex = this.childIndex(index);
 
     while (
-      (this.items[childIndex.left] &&
-        this.items[index] < this.items[childIndex.left]) ||
-      (this.items[childIndex.right] &&
-        this.items[index] < this.items[childIndex.right])
+      (this.items[childIndex.left] && this.items[index] < this.items[childIndex.left]) ||
+      (this.items[childIndex.right] && this.items[index] < this.items[childIndex.right])
     ) {
       const biggerChildIndex =
-        this.items[childIndex.left] > this.items[childIndex.right] ||
-        !this.items[childIndex.right]
+        this.items[childIndex.left] > this.items[childIndex.right] || !this.items[childIndex.right]
           ? childIndex.left
           : childIndex.right;
 
@@ -91,3 +88,55 @@ class MaxHeap {
     }
   }
 }
+
+// 재도전
+// 야근 지수
+// 제곱의 합 최소화 = 평균치를 최소화 -> 큰 수부터 처리해야 한다
+// 1. 큐 생성 - works 내림차순으로 정렬한다. 작업량이 많은게 먼저온다
+// 2. n이 0이 될때까지 반복한다.
+// 3.   인덱스0 > 0 && 인덱스0 >= 인덱스1이면 인덱스0--
+// 4.   인덱스0 < 인덱스1이면 큐의 맨 마지막에 넣는다.
+// 5.   큐를 내림차순으로 다시 정렬한다.
+// 6. 피로도를 구한다.
+// sol1 - 시간 초과
+// function solution(n, works) {
+//   let queue = works.sort((a, b) => b - a);
+
+//   while (n > 0) {
+//     if (queue[0] > 0 && queue[0] >= queue[1]) queue[0]--;
+//     if (queue[0] < queue[1]) queue.push(queue.shift());
+
+//     queue.sort((a, b) => b - a);
+//     n--;
+//   }
+
+//   return queue.reduce((prev, cur) => prev + cur ** 2, 0);
+// }
+
+// sol2
+// 큐 정렬이 문제
+// 200 200 200 -> 199 200 200 -> 200 199 200 -> 200 200 199
+function solution(n, works) {
+  let queue = works.sort((a, b) => b - a);
+
+  while (n > 0) {
+    if (queue[0] > 0 && queue[0] >= queue[1]) queue[0]--;
+
+    let i = 0;
+    while (i < queue.length - 1 && queue[i] < queue[i + 1]) {
+      // 다음 인덱스보다 작으면 자리 바꾸기
+      [queue[i], queue[i + 1]] = [queue[i + 1], queue[i]];
+      i++;
+    }
+
+    n--;
+  }
+
+  return queue.reduce((prev, cur) => prev + cur ** 2, 0);
+}
+
+solution(4, [4, 3, 3]);
+console.log("----");
+solution(1, [2, 1, 2]);
+console.log("------");
+solution(3, [1, 1]);
