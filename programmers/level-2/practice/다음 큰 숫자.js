@@ -1,36 +1,29 @@
+// 다음 큰 숫자
+// 출력: 입력값 n의 다음 큰 수
+// n부터 1씩 더해서 다음 큰 수인지 확인
+// 조건을 만족하면 리턴, 아니면 반복
 // sol1
-// 문자열 내에 특정 문자열 개수 찾을 땐 .match(regex).length
-// 주의할 점은 특정 문자열이 없을 경우 null을 반환하니 에러 핸들링 필요 -> null.length는 타입 에러
-// "test".match(/o/g)?.length -> undefined
-// (("test".match(/o/g)) || []).length -> 0
 function solution(n) {
-  let cnt = 0;
-  const cntOfN = n.toString(2).match(/1/g).length;
+  let next = n;
+  let isNextBigNumber = false;
 
-  while (cnt !== cntOfN) {
-    n++;
-    cnt = n.toString(2).match(/1/g).length;
+  while (!isNextBigNumber) {
+    next++;
+    isNextBigNumber =
+      next > n &&
+      next.toString(2).match(/1/g)?.length ===
+        n.toString(2).match(/1/g)?.length;
   }
 
-  return n;
+  return next;
 }
 
-// sol2
-// 재귀
-function solution(n, k = n + 1) {
-  return n.toString(2).match(/1/g).length === k.toString(2).match(/1/g).length
-    ? k
-    : solution(n, k + 1);
-}
-
-// sol3
-// 다시 풀기
+// sol2: 재귀
 function solution(n, next = n + 1) {
-  // base case, 재귀 멈출 조건
-  // n < next 이고 이진법 n, next의 1의 개수가 같아야 함
+  // base case
   if (
     n < next &&
-    n.toString(2).match(/1/g).length === next.toString(2).match(/1/g).length
+    n.toString(2).match(/1/g)?.length === next.toString(2).match(/1/g)?.length
   ) {
     return next;
   }
@@ -38,3 +31,6 @@ function solution(n, next = n + 1) {
   // different input
   return solution(n, next + 1);
 }
+
+solution(78);
+solution(15);
