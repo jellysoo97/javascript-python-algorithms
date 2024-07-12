@@ -1,22 +1,24 @@
+// 올바른 괄호
+// 출력: 올바른 괄호이면 true, 아니면 false
+// s를 순회
+// "("이면 stack에 push
+// ")"이면 stack에서 pop, stack의 길이가 0이면 return false
+// stack에 짝이 맞지 않는 괄호가 남아있으면 return false, 아니면 true
 function solution(s) {
-  const arr = s.split("");
   let stack = [];
 
-  // 특수문자 소괄호는 정규식 내에서 백슬래시 필요 -> \(
-  if (
-    arr[0] === ")" ||
-    (s.match(/\(/g) || []).length !== (s.match(/\)/g) || []).length
-  ) {
-    return false;
-  }
-
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i] === "(") {
-      stack.push(arr[i]);
-    } else {
+  for (const bracket of s.split("")) {
+    if (bracket === "(") stack.push(bracket);
+    else {
+      if (stack.length === 0) return false;
       stack.pop();
     }
   }
 
-  return stack.length ? false : true;
+  return stack.length > 0 ? false : true;
 }
+
+console.log(solution("()()"));
+console.log(solution("(())()"));
+console.log(solution(")()("));
+console.log(solution("(()("));
