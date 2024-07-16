@@ -1,27 +1,24 @@
-// stack
-// 테스트 1 〉	통과 (63.64ms, 59.9MB)
-// 테스트 2 〉	통과 (64.97ms, 50.2MB)
-// 테스트 3 〉	통과 (31.09ms, 55.5MB)
-// 테스트 4 〉	통과 (32.14ms, 56.4MB)
-// 테스트 5 〉	통과 (31.34ms, 55.4MB)
-// 테스트 6 〉	통과 (32.29ms, 56.4MB)
-// 테스트 7 〉	통과 (34.53ms, 56.4MB)
-// 테스트 8 〉	통과 (59.82ms, 57.7MB)
+// 짝지어 제거하기
+// 출력: 짝지어 제거하기가 가능하면 1, 아니면 0
+// 짝지어 제거: 같은 알파벳 2개 연속 -> 제거 후 문자열 이어붙이기 -> 문자열 모두 제거할 때까지 반복
+// 문자열 순회
+// stack 길이가 0이거나 peek가 현재 문자와 다르면 stack에 push
+// peek가 현재 문자와 같으면 stack에서 pop
+// early return: 길이가 홀수인 경우
 function solution(s) {
-  const arr = s.split("");
-  let stack = [arr[0]];
+  let stack = [];
 
-  if (s.length % 2 !== 0) {
-    return 0;
-  }
+  if (s.length % 2 !== 0) return 0;
 
-  for (let i = 1; i < s.length; i++) {
-    if (stack[stack.length - 1] !== arr[i]) {
-      stack.push(arr[i]);
-    } else {
+  for (const alphabet of s) {
+    if (stack.length === 0 || stack[stack.length - 1] !== alphabet)
+      stack.push(alphabet);
+    else if (stack.length > 0 && stack[stack.length - 1] === alphabet)
       stack.pop();
-    }
   }
 
-  return stack.length ? 0 : 1;
+  return stack.length > 0 ? 0 : 1;
 }
+
+console.log(solution("baabaa"));
+console.log(solution("cdcd"));
