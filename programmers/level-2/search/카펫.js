@@ -1,23 +1,21 @@
+// 카펫
+// 출력: 카펫의 가로, 세로 크기
+// yellow의 약수 쌍 구하기
+// width: 큰 약수 + 2, height: 작은 약수 + 2
+// width * height - yellow = brown을 만족하는 width, height
+// return [width, height]
 function solution(brown, yellow) {
-  let x = 0;
-  let y = 0;
-  // yellow = x * y
-  // brown = (x + 2) * (y + 2)
+  let width = 0;
+  let height = 0;
 
-  // Math.sqrt(yellow)까지 for loop
-  // yellow % i !== 0이면 pass
-  // 딱 떨어지면 x = i + 2, y = yellow / x + 2
-  // brown + yellow = x * y 만족하면 return
   for (let i = 1; i <= Math.sqrt(yellow); i++) {
-    if (yellow % i !== 0) {
-      continue;
-    }
-
-    x = yellow / i + 2;
-    y = i + 2;
-
-    if (x * y === brown + yellow) {
-      return [x, y];
-    }
+    if (yellow % i !== 0) continue;
+    height = i + 2;
+    width = yellow / i + 2;
+    if (width * height - yellow === brown) break;
   }
+
+  return [width, height];
 }
+
+console.log(solution(24, 24));
