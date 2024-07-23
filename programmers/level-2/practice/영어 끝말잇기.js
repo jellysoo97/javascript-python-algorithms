@@ -1,23 +1,58 @@
+// 영어 끝말잇기
+// 탈락자 -> 이전 사람이 말한 단어의 마지막 문자로 시작하는 단어가 아님 or 등장했던 단어를 또 말함
+// 탈락자가 있으면 [i % n, Math.floor(i/n)] 리턴
+// 없으면 [0, 0] 리턴
 function solution(n, words) {
-  let wordArr = [];
-  let index = 0;
+  let alreadyWords = new Set();
 
   for (let i = 0; i < words.length; i++) {
-    if (wordArr.includes(words[i])) {
-      index = i + 1;
-      break;
+    if (
+      i > 0 &&
+      (!words[i].startsWith(words[i - 1][words[i - 1].length - 1]) ||
+        alreadyWords.has(words[i]))
+    ) {
+      return [(i % n) + 1, Math.floor(i / n) + 1];
     }
 
-    // 다음 인덱스 값이 잘못된 값 -> (i + 1) + 1
-    if (words[i + 1] && words[i][words[i].length - 1] !== words[i + 1][0]) {
-      index = i + 2;
-      break;
-    }
-
-    wordArr.push(words[i]);
+    alreadyWords.add(words[i]);
   }
 
-  const number = index % n === 0 ? n - (index % n) : index % n;
-
-  return index > 0 ? [number, Math.ceil(index / n)] : [0, 0];
+  return [0, 0];
 }
+
+console.log(
+  solution(3, [
+    "tank",
+    "kick",
+    "know",
+    "wheel",
+    "land",
+    "dream",
+    "mother",
+    "robot",
+    "tank",
+  ])
+);
+console.log(
+  solution(5, [
+    "hello",
+    "observe",
+    "effect",
+    "take",
+    "either",
+    "recognize",
+    "encourage",
+    "ensure",
+    "establish",
+    "hang",
+    "gather",
+    "refer",
+    "reference",
+    "estimate",
+    "executive",
+  ])
+);
+
+console.log(
+  solution(2, ["hello", "one", "even", "never", "now", "world", "draw"])
+);
