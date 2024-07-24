@@ -1,40 +1,28 @@
+// 할인 행사
+// 0~discount.length-10까지 반복
+// 10일간 원하는 품목을 모두 살 수 있는 지 체크 -> 있으면 카운트
 function solution(want, number, discount) {
-  if (!want.some((elem) => discount.includes(elem))) return 0;
+  let count = 0;
+  let wantDict = {};
 
-  let pointer = 0;
-  let result = 0;
+  want.forEach((elem, index) => (wantDict[elem] = number[index]));
 
-  // pointer + 10 <= discount.length이면 반복
-  while (pointer + 10 <= discount.length) {
-    // pointer부터 discount 10씩 자르기
-    let slicedDiscountArr = discount.slice(pointer, pointer + 10);
-    let count = {};
+  for (let i = 0; i <= discount.length - 10; i++) {
+    let discountDict = {};
+    const wants = Object.keys(wantDict);
 
-    // slicedDiscountArr for loop
-    // 각 재료 개수를 담은 객체 count 생성
-    slicedDiscountArr.forEach((elem) =>
-      count[elem] ? (count[elem] += 1) : (count[elem] = 1)
-    );
+    discount
+      .slice(i, i + 10)
+      .forEach((elem) => (discountDict[elem] = (discountDict[elem] || 0) + 1));
 
-    // want for loop
-    // count[재료] !== number[index]이면 break;
-    // 마지막인데 통과하면 result++
-    for (const elem of want) {
-      const index = want.indexOf(elem);
-      if (count[elem] !== number[index]) {
-        break;
-      }
-
-      if (index === want.length - 1) {
-        result++;
-      }
+    for (let j = 0; j < wants.length; j++) {
+      const key = wants[j];
+      if (wantDict[key] > discountDict[key] || !discountDict[key]) break;
+      if (j === wants.length - 1) count++;
     }
-
-    // pointer 1 이동
-    pointer++;
   }
 
-  return result;
+  return count;
 }
 
 solution(
