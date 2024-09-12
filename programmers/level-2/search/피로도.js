@@ -1,3 +1,45 @@
+// sol1
+// 1. 가능한 모든 경우 구하기 -> 순열
+//    하나 선택 후 나머지 재귀
+// 2. loop 돌면서 탐험 가능한 던전 개수 구하기 -> 던전 개수와 동일하면 break
+function solution(k, dungeons) {
+  function getPermutations(arr) {
+    if (arr.length === 1) return [arr];
+
+    const permutations = [];
+    arr.forEach((item, index) => {
+      const rest = arr.slice(0, index).concat(arr.slice(index + 1));
+      const restPermutations = getPermutations(rest);
+      restPermutations.forEach((permutation) => {
+        permutations.push([item].concat(permutation));
+      });
+    });
+
+    return permutations;
+  }
+
+  let result = [];
+  const cases = getPermutations(dungeons);
+
+  cases.forEach((elem) => {
+    let left = k;
+    let count = 0;
+
+    for (const [min, use] of elem) {
+      if (left < min) break;
+      else {
+        left -= use;
+        count++;
+      }
+    }
+
+    result.push(count);
+  });
+
+  return Math.max(...result);
+}
+
+// sol2
 // 완전탐색, DFS
 function solution(k, dungeons) {
   // 방문한 던전 확인용 배열
@@ -24,3 +66,9 @@ function solution(k, dungeons) {
 
   return result;
 }
+
+solution(80, [
+  [80, 20],
+  [50, 40],
+  [30, 10],
+]);
